@@ -1,18 +1,22 @@
 import React from 'react';
 import NewPlaylist from '../components/NewPlaylist';
-import store from '../store';
+import {connect} from 'react-redux';
+import Stations from '../components/Stations';
+import Album from '../components/Album';
+import {toggleSong} from '../action-creators/player';
 import {addNewPlaylist} from '../action-creators/playlists';
 
-class NewPlaylistContainer extends React.Component {
+
+class localNewPlayList extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       inputValue: '',
       dirty: false
-    };
+    }
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit = this.props.handleSubmit.bind(this);
   }
 
   handleChange(evt) {
@@ -21,12 +25,6 @@ class NewPlaylistContainer extends React.Component {
       inputValue: value,
       dirty: true
     });
-  }
-
-  handleSubmit(evt) {
-
-    evt.preventDefault();
-    store.dispatch(addNewPlaylist(this.state.inputValue));
   }
 
   render() {
@@ -50,4 +48,19 @@ class NewPlaylistContainer extends React.Component {
 
 }
 
-export default NewPlaylistContainer;
+
+function mapStateToProps (state) {
+  return {};
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    handleSubmit: function(evt) {
+      evt.preventDefault();
+      dispatch(addNewPlaylist(this.state.inputValue));
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(localNewPlayList)
+

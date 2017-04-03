@@ -1,28 +1,16 @@
-import React, {Component} from 'react';
-import store from '../store';
+ import {connect} from 'react-redux'
+import Stations from '../components/Stations'
 import Albums from '../components/Albums';
 
-class AlbumsContainer extends Component {
-
-  constructor() {
-    super();
-    this.state = store.getState().albums;
+function mapStateToProps (state) {
+  const albums = state.albums.list;
+  return {
+    albums
   }
-
-  componentDidMount() {
-    this.unsubscribe = store.subscribe(() => {
-      this.setState(store.getState().albums);
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  render() {
-    return <Albums albums={this.state.list}/>;
-  }
-
 }
 
-export default AlbumsContainer;
+function mapDispatchToProps (dispatch) {
+  return {}
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Albums)
